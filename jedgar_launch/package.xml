@@ -1,20 +1,17 @@
 <?xml version="1.0"?>
 <package>
-  <name>jedgar</name>
+  <name>jedgar_launch</name>
   <version>0.0.0</version>
-  <description>The jedgar package</description>
+  <description>The jedgar_launch package</description>
 
   <maintainer email="zach.inbox@gmail.com">Zach Anderson</maintainer>
   <author email="zach.inbox@gmail.com">Zach Anderson</author>
-
+  
   <license>TODO</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>robot_state_publisher</run_depend>
 
-  <run_depend>jedgar_description</run_depend>
-  <run_depend>jedgar_launch</run_depend>
-
-  <export>
-    <metapackage/>
-  </export>
+  <export></export>
 </package>
+
