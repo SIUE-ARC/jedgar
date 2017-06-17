@@ -2,5 +2,6 @@
 <launch>
     <param name="robot_description" textfile="$(find jedgar_description)/urdf/jedgar.urdf" />
     <node name="robot_state_publisher" type="robot_state_publisher" pkg="robot_state_publisher"/>
+    <include file="$(find jedgar_driver)/launch/jedgar_driver.launch"/>
 </launch>
 

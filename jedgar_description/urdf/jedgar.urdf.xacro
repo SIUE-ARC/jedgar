@@ -18,6 +18,12 @@
                     <cylinder length="${WHEEL_THICKNESS}" radius="${WHEEL_RADIUS}"/>
                 </geometry>
             </visual>
+            <collision>
+                <origin rpy="${pi/2} 0 0"/>
+                <geometry>
+                    <cylinder length="${WHEEL_THICKNESS}" radius="${WHEEL_RADIUS}"/>
+                </geometry>
+            </collision>
         </link>
     </xacro:macro>
 

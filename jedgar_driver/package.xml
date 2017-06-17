@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+  <name>jedgar_driver</name>
+  <version>0.0.0</version>
+  <description>The jedgar_driver package</description>
+
+  <maintainer email="zach.inbox@gmail.com">Zach Anderson</maintainer>
+  <author email="zach.inbox@gmail.com">Zach Anderson</author>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>controller_manager</build_depend>
+  <build_depend>hardware_interface</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>serial</build_depend>
+
+  <run_depend>controller_manager</run_depend>
+  <run_depend>hardware_interface</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>serial</run_depend>
+
+  <export>
+  </export>
+</package>
