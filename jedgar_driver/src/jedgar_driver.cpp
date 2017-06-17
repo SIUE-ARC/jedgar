@@ -9,6 +9,11 @@ int main(int argc, char **argv) {
     JedgarInterface interface("dev/ttyUSB0", 19200, 250);
     controller_manager::ControllerManager cm(&interface);
 
+    // Spin off a thread to handle ROS interactions so main thread remains realtime
+    ros::AsyncSpinner spinner(1);
+    spinner.start();
+
+    // Realtime control starts here
     ros::Time then = ros::Time::now();
     ros::Rate rate(50.0);
 
