@@ -1,2 +1,5 @@
 *.swp
 
+# Ignore generated robot descriptions
+*.urdf
+
