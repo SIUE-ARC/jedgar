@@ -5,7 +5,8 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "jedgar_driver");
 
-    JedgarInterface interface;
+    // TODO Move to param server
+    JedgarInterface interface("dev/ttyUSB0", 19200, 250);
     controller_manager::ControllerManager cm(&interface);
 
     ros::Time then = ros::Time::now();

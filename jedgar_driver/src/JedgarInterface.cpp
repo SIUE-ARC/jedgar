@@ -1,6 +1,6 @@
 #include "jedgar_driver/JedgarInterface.h"
 
-JedgarInterface::JedgarInterface() {
+JedgarInterface::JedgarInterface(std::string port, int baud, int timeout) : serializer(port, baud, timeout) {
     // Setup ros_control interfaces
     // Left state
     hardware_interface::JointStateHandle leftStateHandle("left_wheel_joint", pos + 0, vel + 0, eff + 0);
@@ -27,16 +27,19 @@ JedgarInterface::JedgarInterface() {
 
 
 JedgarInterface::~JedgarInterface() {
-    // TODO Shutdown motors
-
-    // TODO End communication
+    // Shutdown motors
+    serializer.stop();
 }
 
 void JedgarInterface::read() {
-    // TODO Read the current state of the motors into pos, vel, eff
+    // Read the current state of the motors into pos, vel, eff
+    serializer.getPosition(pos[0], pos[1]);
+    serializer.getVelocity(vel[0], vel[1]);
+    eff[0] = 0; eff[1] = 0;
 }
 
 void JedgarInterface::write() {
-    // TODO Write the velocity commanded by moveAt to the motors
+    // Write the velocity commanded by moveAt to the motors
+    serializer.setVelocity(moveAt[0], moveAt[1]);
 }
 

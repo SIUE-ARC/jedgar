@@ -4,9 +4,10 @@ project(jedgar_driver)
 add_definitions(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
-  hardware_interface
   controller_manager
+  hardware_interface
   roscpp
+  serial
 )
 
 catkin_package()

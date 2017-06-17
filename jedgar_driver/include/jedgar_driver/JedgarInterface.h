@@ -5,15 +5,19 @@
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
 
+#include "jedgar_driver/Serializer.h"
+
 class JedgarInterface : public hardware_interface::RobotHW {
 public:
-    JedgarInterface();
+    JedgarInterface(std::string port, int baud, int timeout);
     ~JedgarInterface();
 
     void read();
     void write();
 
 private:
+    Serializer serializer;
+
     hardware_interface::JointStateInterface stateInterface;
     hardware_interface::VelocityJointInterface velocityCommandInterface;
 
