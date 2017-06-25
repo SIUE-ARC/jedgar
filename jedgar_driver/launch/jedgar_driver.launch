@@ -1,10 +1,18 @@
 <?xml version="1.0"?>
 <launch>
+    <arg name="gazebo" default="false" /> 
+
     <param name="robot_description" textfile="$(find jedgar_description)/urdf/jedgar.urdf" />
+
+    <!-- Spawn simulation model if running in gazebo mode -->
+    <node if="$(arg gazebo)" name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+      args="-urdf -model jedgar -param robot_description"/>
+
+    <!-- Spawn serializer driver if running in real mode -->
+    <node unless="$(arg gazebo)" name="jedgar_driver" pkg="jedgar_driver" type="jedgar_driver"/>
+
+    <!-- Launch the controllers -->
     <rosparam file="$(find jedgar_driver)/config/jedgar_controllers.yaml" command="load"/>
-
-    <node name="jedgar_driver" pkg="jedgar_driver" type="jedgar_driver"/>
-
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
           args="jedgar_state_controller jedgar_base_controller --shutdown-timeout 1"/>
 </launch>
