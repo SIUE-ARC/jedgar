@@ -1,14 +1,24 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="jedgar">
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+    </gazebo>
+
     <!-- TODO Measure Jedgar -->
     <xacro:property name="BASE_LENGTH" value="1.0" />
     <xacro:property name="BASE_HEIGHT" value="1.0" />
+    <xacro:property name="BASE_MASS" value="1.0" />
 
     <xacro:property name="WHEEL_TO_BACK" value="1.0" />
     <xacro:property name="WHEELBASE" value="1.0" />
 
     <xacro:property name="WHEEL_THICKNESS" value="1.0" />
     <xacro:property name="WHEEL_RADIUS" value="1.0" />
+
+    <xacro:property name="WHEEL_MASS" value="1.0" />
+    <xacro:property name="WHEEL_MOMENT" value="${WHEEL_MASS/12*(3*WHEEL_RADIUS**2+WHEEL_THICKNESS**2)}" />
 
     <xacro:macro name="wheel" params="name">
         <link name="${name}">
@@ -24,6 +34,10 @@
                     <cylinder length="${WHEEL_THICKNESS}" radius="${WHEEL_RADIUS}"/>
                 </geometry>
             </collision>
+            <inertial>
+                <mass value="${WHEEL_MASS}"/>
+                <inertia ixx="${WHEEL_MOMENT}" iyy="${WHEEL_MOMENT}" izz="${WHEEL_MOMENT}" ixy="0" ixz="0" iyz="0"/>
+            </inertial>
         </link>
     </xacro:macro>
 
@@ -35,6 +49,19 @@
                 <box size="${BASE_LENGTH} ${WHEELBASE} ${BASE_HEIGHT}"/>
             </geometry>
         </visual>
+        <collision>
+            <geometry>
+                <box size="${BASE_LENGTH} ${WHEELBASE} ${BASE_HEIGHT}"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="${BASE_MASS}"/>
+            <inertia
+                ixx="${BASE_MASS/12*(BASE_HEIGHT**2+BASE_LENGTH**2)}"
+                iyy="${BASE_MASS/12*(WHEELBASE**2+BASE_LENGTH**2)}"
+                izz="${BASE_MASS/12*(WHEELBASE**2+BASE_HEIGHT**2)}"
+                ixy="0" ixz="0" iyz="0"/>
+        </inertial>
     </link>
 
     <xacro:wheel name="left_wheel"/>
@@ -53,12 +80,34 @@
         <origin xyz="${-BASE_LENGTH/2+WHEEL_TO_BACK} ${WHEELBASE/2} 0"/>
     </joint>
 
+    <transmission name="left_wheel_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_wheel_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
     <joint name="right_wheel_joint" type="continuous">
         <parent link="base_link"/>
         <child link="right_wheel"/>
         <axis xyz="0 1 0"/>
         <origin xyz="${-BASE_LENGTH/2+WHEEL_TO_BACK} ${-WHEELBASE/2} 0"/>
     </joint>
+
+    <transmission name="right_wheel_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_wheel_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
 
 </robot>
 
