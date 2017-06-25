@@ -11,6 +11,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <run_depend>robot_state_publisher</run_depend>
+  <run_depend>robot_pose_ekf</run_depend>
 
   <export></export>
 </package>
