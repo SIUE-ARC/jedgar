@@ -5,7 +5,7 @@
     <!-- TODO Measure Jedgar -->
     <xacro:property name="BASE_LENGTH" value="0.300" />
     <xacro:property name="BASE_HEIGHT" value="0.050" />
-    <xacro:property name="BASE_MASS" value="1.0" />
+    <xacro:property name="BASE_MASS" value="0.4" />
 
     <xacro:property name="WHEEL_THICKNESS" value="0.020" />
     <xacro:property name="WHEEL_RADIUS" value="0.075" />
@@ -13,10 +13,11 @@
     <xacro:property name="WHEEL_TO_BACK" value="${WHEEL_RADIUS}" />
     <xacro:property name="WHEELBASE" value="0.200" />
 
-    <xacro:property name="WHEEL_MASS" value="1.0" />
+    <xacro:property name="WHEEL_MASS" value="0.1" />
     <xacro:property name="WHEEL_MOMENT" value="${WHEEL_MASS/12*(3*WHEEL_RADIUS**2+WHEEL_THICKNESS**2)}" />
 
     <xacro:property name="camera_link" value="0.005" />
+    <xacro:property name="laser_link" value="0.1" />
 
     <xacro:macro name="wheel" params="name">
         <link name="${name}">
@@ -107,6 +108,35 @@
         <parent link="base_link"/>
         <child link="camera_link"/>
         <origin xyz="${BASE_LENGTH/2} 0 0"/>
+    </joint>
+
+	<link name="laser_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="${laser_link} ${laser_link} ${laser_link}"/>
+			</geometry>
+		</collision>
+
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+		<box size="${laser_link} ${laser_link} ${laser_link}"/>
+			</geometry>
+		</visual>
+
+		<inertial>
+			<mass value="1e-5" />
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+		</inertial>
+	</link>
+
+    <joint name="laser_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="laser_link"/>
+        <origin xyz="${BASE_LENGTH/2} ${-WHEELBASE/2} 0"
+				rpy="0 0 0"/>
     </joint>
 
     <xacro:wheel name="left_wheel"/>
