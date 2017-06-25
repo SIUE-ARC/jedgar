@@ -7,15 +7,15 @@
     </gazebo>
 
     <!-- TODO Measure Jedgar -->
-    <xacro:property name="BASE_LENGTH" value="1.0" />
-    <xacro:property name="BASE_HEIGHT" value="1.0" />
+    <xacro:property name="BASE_LENGTH" value="0.300" />
+    <xacro:property name="BASE_HEIGHT" value="0.050" />
     <xacro:property name="BASE_MASS" value="1.0" />
 
-    <xacro:property name="WHEEL_TO_BACK" value="1.0" />
-    <xacro:property name="WHEELBASE" value="1.0" />
+    <xacro:property name="WHEEL_THICKNESS" value="0.020" />
+    <xacro:property name="WHEEL_RADIUS" value="0.075" />
 
-    <xacro:property name="WHEEL_THICKNESS" value="1.0" />
-    <xacro:property name="WHEEL_RADIUS" value="1.0" />
+    <xacro:property name="WHEEL_TO_BACK" value="${WHEEL_RADIUS}" />
+    <xacro:property name="WHEELBASE" value="0.200" />
 
     <xacro:property name="WHEEL_MASS" value="1.0" />
     <xacro:property name="WHEEL_MOMENT" value="${WHEEL_MASS/12*(3*WHEEL_RADIUS**2+WHEEL_THICKNESS**2)}" />
@@ -64,13 +64,38 @@
         </inertial>
     </link>
 
+    <link name="caster_link">
+        <visual>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0"/>
+            <inertia
+                ixx="0" iyy="0" izz="0"
+                ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+
     <xacro:wheel name="left_wheel"/>
     <xacro:wheel name="right_wheel"/>
 
     <joint name="base_footprint_joint" type="fixed">
         <parent link="base_link"/>
         <child link="base_footprint"/>
-        <origin xyz="0 0 ${WHEEL_RADIUS}"/>
+        <origin xyz="0 0 ${-WHEEL_RADIUS}"/>
+    </joint>
+
+    <joint name="caster_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="caster_link"/>
+        <origin xyz="${BASE_LENGTH/2} 0 ${-WHEEL_RADIUS + 0.01}"/>
     </joint>
 
     <joint name="left_wheel_joint" type="continuous">
