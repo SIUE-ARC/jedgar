@@ -3,20 +3,8 @@
     <arg name="gazebo" default="false"/>
 
     <!-- Bring up the move base, encoder odom, and state publisher -->
-    <include file="jedgar_base.launch">
+    <include file="$(find jedgar_launch)/launch/jedgar_base.launch">
         <arg name="gazebo" value="$(arg gazebo)"/>
     </include>
-
-    <remap from="odom" to="jedgar_base_controller/odom"/>
-	<node output="screen" pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
-		<param name="output_frame" value="odom"/>
-		<param name="freq" value="30.0"/>
-		<param name="sensor_timeout" value="1.0"/>
-		<param name="odom_used" value="true"/>
-		<param name="imu_used" value="true"/>
-		<param name="vo_used" value="false"/>
-		<param name="debug" value="false"/>
-		<param name="self_diagnose" value="false"/>
-	</node>
 </launch>
 
