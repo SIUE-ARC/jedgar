@@ -1,10 +1,22 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="gazebo" default="false"/>
+    <param if="$(arg gazebo)" name="use_sim_time" value="true"/>
 
     <!-- Bring up the move base, encoder odom, and state publisher -->
     <include file="$(find jedgar_launch)/launch/jedgar_base.launch">
         <arg name="gazebo" value="$(arg gazebo)"/>
     </include>
+
+    <!-- Since we aren't doing any active localization, bind the map frame to the fused odometry data -->
+    <node name="map_frame_publisher" pkg="tf" type="static_transform_publisher"
+        args="0 0 0 0 0 0 map odom_fused 100"/>
+
+    <!-- Bring up the navigation stack -->
+    <include file="$(find jedgar_2dnav)/launch/jedgar_nav.launch"/>
+
+    <!-- Bring up simulation equipment -->
+    <node if="$(arg gazebo)" name="gazebo" pkg="gazebo_ros" type="gzserver"/>
+    <node if="$(arg gazebo)" name="rviz" pkg="rviz" type="rviz"/>
 </launch>
 

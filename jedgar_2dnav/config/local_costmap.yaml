@@ -1,0 +1,6 @@
+local_costmap:
+  global_frame: /odom_fused
+  robot_base_frame: base_footprint
+  update_frequency: 2.0
+  static_map: true
+

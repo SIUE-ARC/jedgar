@@ -37,5 +37,8 @@
              true, false, false]
          </rosparam>
     </node>
+
+    <!-- Load map -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find jedgar_2dnav)/maps/map.yaml"/>
 </launch>
 
