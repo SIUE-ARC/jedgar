@@ -7,7 +7,7 @@
     </gazebo>
 
     <gazebo>
-        <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+        <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
             <alwaysOn>true</alwaysOn>
             <bodyName>base_link</bodyName>
             <topicName>imu_data</topicName>

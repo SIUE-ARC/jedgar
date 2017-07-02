@@ -17,6 +17,7 @@
 
     <!-- Bring up simulation equipment -->
     <node if="$(arg gazebo)" name="gazebo" pkg="gazebo_ros" type="gzserver"/>
+    <remap from="initialpose" to="set_pose"/>
     <node if="$(arg gazebo)" name="rviz" pkg="rviz" type="rviz"/>
 </launch>
 

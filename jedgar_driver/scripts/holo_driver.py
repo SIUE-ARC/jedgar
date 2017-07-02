@@ -5,8 +5,10 @@ from geometry_msgs.msg import Twist
 def update(twist):
     global twist_pub
 
+    total_vel = (twist.x ** 2 + twist.y ** 2) ** 0.5
+
     if abs(twist.linear.y) > 0.01:
-        twist.angular.z = twist.linear.y * 5
+        twist.angular.z = twist.linear.y * 6
         twist.linear.y = 0
 
         if twist.linear.x < 0:
