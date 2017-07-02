@@ -15,5 +15,8 @@
     <rosparam file="$(find jedgar_driver)/config/jedgar_controllers.yaml" command="load"/>
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
           args="jedgar_state_controller jedgar_base_controller --shutdown-timeout 1"/>
-</launch>
 
+    <!-- Converts holonomic drive commands (Commands with a Y velocity into X/Yaw commands -->
+    <node name="holo_driver" pkg="jedgar_driver" type="holo_driver.py"/>
+</launch>
+ 
